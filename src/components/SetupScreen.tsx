@@ -33,7 +33,7 @@ export const SetupScreen: React.FC<Props> = ({ onDone }) => {
   };
 
   const removeTeam = (id: number) => {
-    if (teams.length <= 2) return;
+    if (teams.length <= 1) return;
     setTeams((t) => t.filter((team) => team.id !== id));
   };
 
@@ -62,8 +62,7 @@ export const SetupScreen: React.FC<Props> = ({ onDone }) => {
       ),
     );
 
-  const totalPlayers = teams.reduce((s, t) => s + t.players.length, 0);
-  const canStart = totalPlayers >= 2 && teams.every((t) => t.players.length >= 1);
+  const canStart = teams.every((t) => t.players.length >= 2);
 
   const handleStart = () => {
     if (!canStart) return;
@@ -89,7 +88,7 @@ export const SetupScreen: React.FC<Props> = ({ onDone }) => {
               value={team.name}
               onChange={(e) => updateName(team.id, e.target.value)}
             />
-            {teams.length > 2 && (
+            {teams.length > 1 && (
               <button className="btn btn--icon" onClick={() => removeTeam(team.id)}>
                 ✕
               </button>
@@ -152,7 +151,7 @@ export const SetupScreen: React.FC<Props> = ({ onDone }) => {
       </div>
 
       {!canStart && (
-        <p className="hint-text">נדרשים לפחות 2 שחקנים (לפחות אחד בכל קבוצה)</p>
+        <p className="hint-text">כל קבוצה חייבת לפחות 2 שחקנים</p>
       )}
 
       <button
